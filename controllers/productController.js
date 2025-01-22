@@ -40,7 +40,7 @@ export const getSingleProductController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    
+
     if (error.code === "CastError") {
       return res.status(505).send({
         success: false,
@@ -67,7 +67,7 @@ export const CreateProductController = async (req, res) => {
       });
     }
 
-    // Validate file presence
+   
     if (!req.files || req.files.length === 0) {
       return res.status(400).send({
         success: false,
@@ -80,14 +80,13 @@ export const CreateProductController = async (req, res) => {
       url: `/uploads/products/${file.filename}`,
     }));
 
-    
     await productModel.create({
       name,
       description,
       price,
       category,
       stock,
-      images, 
+      images,
     });
 
     res.status(201).send({
@@ -106,7 +105,6 @@ export const CreateProductController = async (req, res) => {
 //update product
 export const updateProductController = async (req, res) => {
   try {
-  
     const product = await productModel.findById(req.params.id);
     if (!product) {
       return res.status(404).send({
@@ -149,8 +147,6 @@ export const updateProductController = async (req, res) => {
     });
   }
 };
-
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -195,36 +191,33 @@ export const deleteProductController = async (req, res) => {
   }
 };
 
-
-
-
-
 export const deleteProductIndividualImage = async (req, res) => {
   try {
     const { id, imgId } = req.params;
 
     // Validate product ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send({ success: false, message: "Invalid product ID" });
+      return res
+        .status(400)
+        .send({ success: false, message: "Invalid product ID" });
     }
 
     console.log("Product ID:", id);
     console.log("Image ID:", imgId);
 
-   
     const product = await productModel.findById(id);
     if (!product) {
-      return res.status(404).send({ success: false, message: "Product not found" });
+      return res
+        .status(404)
+        .send({ success: false, message: "Product not found" });
     }
 
-   
-
-    
-    const imageIndex = product.images.findIndex((img) => img._id == imgId); // Loose equality for string comparison
-
+    const imageIndex = product.images.findIndex((img) => img._id == imgId); 
 
     if (imageIndex === -1) {
-      return res.status(404).send({ success: false, message: "Image not found" });
+      return res
+        .status(404)
+        .send({ success: false, message: "Image not found" });
     }
 
     const image = product.images[imageIndex];
@@ -232,7 +225,11 @@ export const deleteProductIndividualImage = async (req, res) => {
 
     // Delete the image file from the filesystem
     if (image.url) {
-      const filePath = path.join(__dirname, "../uploads/products", image.url.split("/").pop());
+      const filePath = path.join(
+        __dirname,
+        "../uploads/products",
+        image.url.split("/").pop()
+      );
       console.log("File Path:", filePath);
       try {
         fs.unlinkSync(filePath);
@@ -264,19 +261,27 @@ export const deleteProductAllImages = async (req, res) => {
 
     // Validate product ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send({ success: false, message: "Invalid product ID" });
+      return res
+        .status(400)
+        .send({ success: false, message: "Invalid product ID" });
     }
 
     // Fetch the product
     const product = await productModel.findById(id);
     if (!product) {
-      return res.status(404).send({ success: false, message: "Product not found" });
+      return res
+        .status(404)
+        .send({ success: false, message: "Product not found" });
     }
 
     // Iterate over all images and delete them from the file system
     for (const image of product.images) {
       if (image.url) {
-        const filePath = path.join(__dirname, "../uploads/products", image.url.split("/").pop());
+        const filePath = path.join(
+          __dirname,
+          "../uploads/products",
+          image.url.split("/").pop()
+        );
         try {
           fs.unlinkSync(filePath); // Delete the file
         } catch (err) {
@@ -302,16 +307,12 @@ export const deleteProductAllImages = async (req, res) => {
   }
 };
 
-
-
-
 // search product by name controller function
 
 export const getProductsByNameController = async (req, res) => {
   try {
-    const { name } = req.query
+    const { name } = req.query;
 
- 
     if (!name || name.trim() === "") {
       return res.status(400).json({
         success: false,
@@ -319,7 +320,6 @@ export const getProductsByNameController = async (req, res) => {
       });
     }
 
-  
     const regex = new RegExp(name, "i");
     const products = await productModel.find({ name: regex });
 

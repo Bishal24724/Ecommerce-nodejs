@@ -141,19 +141,19 @@ export const changeOrderStatusController= async(req,res)=>{
            else if(order.status=="Processing") order.status= "Shipped"
            else if(order.status=="Shipped"){
             order.status="Delivered"
-            order.deliveredAt= new Date.now()
+            order.deliveredAt=  Date.now()
            }else{
             return res.status(500).send({
               success:false,
               message:"order already delivered"
-            });
-
+            })
+          }
             await order.save()
             res.status(200).send({
               success:true,
               message:"Order status has been updated succesfully"
             });
-           }
+           
       
      } catch (error) {
             console.error(error)
@@ -163,3 +163,63 @@ export const changeOrderStatusController= async(req,res)=>{
             });
      }
 }
+
+export const getMyOrders = async (req, res) => {
+  try {
+   
+    const userOrders = await orderModel
+      .find({ user: req.user._id })
+      .populate("items.product", "name price") 
+      .sort({ createdAt: -1 }); 
+
+    if (!userOrders || userOrders.length === 0) {
+      return res.status(404).send({
+        success: false,
+        message: "No orders found for this user",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      orders: userOrders,
+    });
+  } catch (error) {
+    console.error("Error retrieving user's orders:", error.message);
+    res.status(500).send({
+      success: false,
+      message: "Failed to fetch user's orders",
+      error: error.message,
+    });
+  }
+};
+
+export const getOrderDetails = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+   
+    const order = await orderModel
+      .findOne({ _id: orderId, user: req.user._id })
+      .populate("items.product", "name price stock");
+
+    if (!order) {
+      return res.status(404).send({
+        success: false,
+        message: "Order not found or does not belong to the user",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Order details retrieved successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Error retrieving order details:", error.message);
+    res.status(500).send({
+      success: false,
+      message: "Failed to fetch order details",
+      error: error.message,
+    });
+  }
+};

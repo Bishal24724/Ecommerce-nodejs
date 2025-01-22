@@ -1,14 +1,14 @@
 import userModel from "../models/userModel.js";
 import { getDataUri } from "../utils/feature.js";
 import fs from "fs";
-// import cloudinary from "cloudinary";
+
 
 export const registerController = async (req, res) => {
   try {
-    console.log("Request Body:", req.body); // Debugging request payload
+    
     const { name, email, password, address, city, country, phone } = req.body;
 
-    // Validation
+   
     if (
       !name ||
       !email ||
@@ -21,7 +21,7 @@ export const registerController = async (req, res) => {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
-    // Check for existing user by email
+   
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -44,12 +44,12 @@ export const registerController = async (req, res) => {
     return res.status(200).json({
       message: "Registration successful",
       success: true,
-      user, // You can also return the created user data
+      user, 
     });
   } catch (error) {
     console.log("Error:", error);
 
-    // Handle validation error after catch
+   
     if (error.name === "ValidationError") {
       return res.status(400).json({
         success: false,
@@ -188,7 +188,7 @@ export const updateProfileController = async (req, res) => {
   } catch (error) {}
 };
 
-//update user password
+
 
 export const updatePasswordController = async (req, res) => {
   try {
@@ -221,40 +221,6 @@ export const updatePasswordController = async (req, res) => {
   } catch (error) {}
 };
 
-// export const updateProfilePicController = async (req, res) => {
-//   try {
-   
-//     const user = await userModel.findById(req.user._id);
-
-//     //file get from client photo
-//     const file = getDataUri(req.file);
-
-//     //delete prev image
-//     //await cloudinary.v2.uploader.destroy(user.profilePic.public_id);
-
-//     //update
-//     const cbd = await cloudinary.v2.uploader.upload(file.content);
-
-//     user.profilePic = {
-//       public_id: cbd.public_id,
-//       url: cbd.secure_url,
-//     };
-
-//     //save func
-//     await user.save();
-//     res.status(200).send({
-//       success: true,
-//       message: "profile picture updated successfully",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({
-//       success: false,
-//       message: "Error in profile pic upload api",
-//       error,
-//     });
-//   }
-// };
 
 export const updateProfilePicController = async (req, res) => {
   try {
@@ -267,7 +233,7 @@ export const updateProfilePicController = async (req, res) => {
       });
     }
 
-    // Remove the old profile picture if it exists
+   
     if (user.profilePic?.url) {
       const oldFilePath = `./${user.profilePic.url}`;
       if (fs.existsSync(oldFilePath)) {
@@ -277,8 +243,8 @@ export const updateProfilePicController = async (req, res) => {
 
     // Save the new file details in the database
     user.profilePic = {
-      public_id: req.file.filename, // Use the filename as the public ID
-      url: req.file.path, // Save the relative file path
+      public_id: req.file.filename, 
+      url: req.file.path, 
     };
 
     await user.save();

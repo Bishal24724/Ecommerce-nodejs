@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 
 import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./config/db.js";
-//import cloudinary from "cloudinary";
+
 import path from "path";
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
