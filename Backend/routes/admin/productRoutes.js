@@ -8,9 +8,9 @@ import {
   deleteProductIndividualImage,
   deleteProductAllImages,
   getProductsByNameController
-} from "../controllers/productController.js";
-import { isAuth,isAdmin } from "../middlewares/authMiddleware.js";
-import { productImageUpload } from "../middlewares/multer.js";
+} from "../../controllers/admin/productController.js";
+import { isAuth,isAdmin } from "../../middlewares/authMiddleware.js";
+import { productImageUpload } from "../../middlewares/multer.js";
 
 const router = express.Router();
 

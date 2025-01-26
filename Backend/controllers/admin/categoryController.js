@@ -1,5 +1,5 @@
-import categoryModel from "../models/categoryModel.js";
-import productModel from "../models/productModel.js";
+import categoryModel from "../../models/categoryModel.js";
+import productModel from "../../models/productModel.js";
 export const createCategory = async (req, res) => {
   try {
     const { category } = req.body;

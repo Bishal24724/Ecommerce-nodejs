@@ -5,14 +5,16 @@ import dotenv from "dotenv";
 
 import cookieParser from "cookie-parser";
 
-import userRoutes from "./routes/userRoutes.js";
+import userRoutes from "./routes/users/userRoutes.js";
 import connectDB from "./config/db.js";
 
 import path from "path";
-import productRoutes from "./routes/productRoutes.js";
-import categoryRoutes from "./routes/categoryRoutes.js";
-import cartRoutes from "./routes/cartRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
+import productRoutes from "./routes/users/productRoutes.js";
+import categoryRoutes from "./routes/admin/categoryRoutes.js";
+import cartRoutes from "./routes/users/cartRoutes.js";
+import orderRoutes from "./routes/users/orderRoutes.js";
+import adminOrderRoutes from "./routes/admin/orderRoutes.js";
+import adminProductRoutes from "./routes/admin/productRoutes.js";
 
 
 
@@ -25,12 +27,7 @@ dotenv.config();
 //database connection
 connectDB();
 
-//cloudinary config
-// cloudinary.v2.config({
-//     cloud_name:process.env.CLOUDINARY_NAME,
-//     api_key:process.env.CLOUDINARY_API_KEY,
-//     api_secret:process.env.CLOUDINARY_SECRET,
-// })
+
 
 const app= express();
 
@@ -46,18 +43,20 @@ app.use(cookieParser());
 
 //use routes
 
-app.use("/api/v1/user",userRoutes);
+app.use("/api/user",userRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-app.use('/api/v1/category',categoryRoutes);
+app.use('/api/category',categoryRoutes);
 
-app.use('/api/v1/product',productRoutes);
+app.use('/api/product',productRoutes);
+app.use('/api/admin/product',adminProductRoutes);
 
-app.use('/api/v1/cart',cartRoutes)
+app.use('/api/cart',cartRoutes)
 
 
 
-app.use("/api/v1/order", orderRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/admin/order", adminOrderRoutes);
 
 app.get('/',(req,res)=>{
     return res.status(200).send("<h1>Welcome to node </h1>" );

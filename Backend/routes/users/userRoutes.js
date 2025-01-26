@@ -8,9 +8,9 @@ import {
   updatePasswordController,
   updateProfilePicController,
 
-} from "../controllers/userController.js";
-import {isAuth} from "../middlewares/authMiddleware.js";
-import { singleUpload } from "../middlewares/multer.js";
+} from "../../controllers/users/userController.js";
+import {isAuth} from "../../middlewares/authMiddleware.js";
+import { singleUpload } from "../../middlewares/multer.js";
 
 const router = express.Router();
 
