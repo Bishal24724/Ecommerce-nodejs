@@ -15,7 +15,8 @@ import cartRoutes from "./routes/users/cartRoutes.js";
 import orderRoutes from "./routes/users/orderRoutes.js";
 import adminOrderRoutes from "./routes/admin/orderRoutes.js";
 import adminProductRoutes from "./routes/admin/productRoutes.js";
-
+import  reviewRoutes from './routes/users/reviewRoutes.js';
+import  adminReviewRoutes from './routes/admin/reviewRoutes.js';
 
 
 
@@ -57,6 +58,9 @@ app.use('/api/cart',cartRoutes)
 
 app.use("/api/order", orderRoutes);
 app.use("/api/admin/order", adminOrderRoutes);
+
+app.use("/api/review",reviewRoutes);
+app.use("/api/admin/review",adminReviewRoutes);
 
 app.get('/',(req,res)=>{
     return res.status(200).send("<h1>Welcome to node </h1>" );
