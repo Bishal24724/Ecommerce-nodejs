@@ -2,8 +2,9 @@ import express from 'express';
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
-
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import mangoSanitize from "express-mongo-sanitize";
 
 import userRoutes from "./routes/users/userRoutes.js";
 import connectDB from "./config/db.js";
@@ -34,7 +35,8 @@ const app= express();
 
 
 //middlewares
-
+app.use(helmet());
+app.use(mangoSanitize());
 app.use(morgan("dev"));
 
 app.use(express.json());

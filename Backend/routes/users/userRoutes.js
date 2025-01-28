@@ -11,14 +11,23 @@ import {
 } from "../../controllers/users/userController.js";
 import {isAuth} from "../../middlewares/authMiddleware.js";
 import { singleUpload } from "../../middlewares/multer.js";
+import { rateLimit } from 'express-rate-limit';
+
+//rate limiter
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	limit: 100, 
+	standardHeaders: 'draft-8', 
+	legacyHeaders: false, 
+})
 
 const router = express.Router();
 
-router.post("/register", registerController);
+router.post("/register",limiter, registerController);
 
 //login
 
-router.post("/login", loginController);
+router.post("/login", limiter,loginController);
 
 //profile
 router.get('/profile',isAuth,getUserProfileController);

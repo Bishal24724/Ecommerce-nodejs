@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema(
 
 // Hash function
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next(); // Fix: Add the '!' to check if password is NOT modified
+  if (!this.isModified('password')) return next(); 
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
@@ -77,5 +77,6 @@ userSchema.methods.generateToken= function(){
 
  const userModel= mongoose.model("Users",userSchema);
  export default userModel;
+
 
  
