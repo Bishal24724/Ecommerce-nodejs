@@ -2,8 +2,9 @@ import express from "express";
 import {
   getAllOrders,
   changeOrderStatusController,
-} from "../controllers/admin/orderController.js";
-import { isAuth, isAdmin } from "../middlewares/authMiddleware.js";
+} from "../../controllers/admin/orderController.js";
+
+import { isAuth, isAdmin } from "../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 

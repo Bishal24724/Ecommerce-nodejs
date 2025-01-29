@@ -16,11 +16,11 @@ const router = express.Router();
 
 router.get("/search", getProductsByNameController);
 router.get('/get-all', getAllProductsController);
-router.get("/:id", getSingleProductController);
+router.get("/get/:id", getSingleProductController);
 
 
 router.post('/create', isAuth, isAdmin,productImageUpload, CreateProductController);
-router.put('/:id',isAuth,isAdmin,productImageUpload,updateProductController);
+router.put('/update/:id',isAuth,isAdmin,productImageUpload,updateProductController);
 
 router.delete("/delete/:id",isAuth,isAdmin,deleteProductController)
 router.delete("/delete/:id/image/:imgId",isAuth,isAdmin,deleteProductIndividualImage);

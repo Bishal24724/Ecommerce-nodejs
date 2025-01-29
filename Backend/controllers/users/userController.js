@@ -1,5 +1,4 @@
 import userModel from "../../models/userModel.js";
-import { getDataUri } from "../utils/feature.js";
 import fs from "fs";
 
 

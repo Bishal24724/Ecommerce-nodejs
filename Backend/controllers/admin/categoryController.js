@@ -2,9 +2,11 @@ import categoryModel from "../../models/categoryModel.js";
 import productModel from "../../models/productModel.js";
 export const createCategory = async (req, res) => {
   try {
-    const { category } = req.body;
+    const {category} = req.body;
     if (!category) {
-      return res.status(400).json({ message: "Category is required" });
+      return res.status(400).json({
+        success:false,
+         message: "Category is required" });
     }
     await categoryModel.create({ category });
     res.status(201).json({

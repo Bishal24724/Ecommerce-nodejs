@@ -1,4 +1,4 @@
-import productModel from "../models/productModel.js";
+import productModel from "../../models/productModel.js";
 import mongoose from "mongoose";
 
 export const getAllProductsController = async (req, res) => {

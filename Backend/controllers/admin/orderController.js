@@ -1,6 +1,6 @@
 import axios from "axios";
-import orderModel from "../models/orderModel.js";
-import cartModel from "../models/cartModel.js";
+import orderModel from "../../models/orderModel.js";
+import cartModel from "../../models/cartModel.js";
 
 
 

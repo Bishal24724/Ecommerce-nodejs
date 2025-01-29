@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.get("/search", getProductsByNameController);
 router.get("/get-all", getAllProductsController);
-router.get("/:id", getSingleProductController);
+router.get("/get/:id", getSingleProductController);
 
 export default router;

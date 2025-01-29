@@ -1,4 +1,4 @@
-import productModel from "../models/productModel.js";
+import productModel from "../../models/productModel.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -60,32 +60,33 @@ export const CreateProductController = async (req, res) => {
     const { name, description, price, stock, category } = req.body;
 
     // Validate required fields
-    if (!name || !description || !price || !stock) {
+    if (!name || !description || !price || !stock || !category) {
       return res.status(400).send({
         success: false,
-        message: "Please fill all the fields",
+        message: "All fields are required",
       });
     }
 
-   
+    // Validate files
     if (!req.files || req.files.length === 0) {
       return res.status(400).send({
         success: false,
-        message: "Please provide product images",
+        message: "Product images are required",
       });
     }
 
-    // Prepare file details
+    // Prepare image data
     const images = req.files.map((file) => ({
       url: `/uploads/products/${file.filename}`,
     }));
 
+    // Save product to the database
     await productModel.create({
       name,
       description,
       price,
-      category,
       stock,
+      category,
       images,
     });
 
@@ -94,13 +95,14 @@ export const CreateProductController = async (req, res) => {
       message: "Product created successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send({
       success: false,
-      message: "Error while creating product API",
+      message: "An error occurred while creating the product",
     });
   }
 };
+
 
 //update product
 export const updateProductController = async (req, res) => {

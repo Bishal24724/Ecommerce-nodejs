@@ -40,6 +40,7 @@ app.use(mangoSanitize());
 app.use(morgan("dev"));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 app.use(cookieParser());
@@ -49,7 +50,7 @@ app.use(cookieParser());
 app.use("/api/user",userRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-app.use('/api/category',categoryRoutes);
+app.use('/api/product/category',categoryRoutes);
 
 app.use('/api/product',productRoutes);
 app.use('/api/admin/product',adminProductRoutes);
